@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { TodoItemInterface, DeadlineWarningInterface } from "../../interfaces";
+import React, { useState } from 'react';
+import { TodoItemInterface } from "../../interfaces";
 import ClearIcon from '@material-ui/icons/Clear';
-import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
-import ErrorRoundedIcon from '@material-ui/icons/ErrorRounded';
 import { IconButton, TextField, Checkbox, Tooltip } from '@material-ui/core';
-import { differenceInSeconds } from 'date-fns'
-import { ENTER_KEY, WARNING_TIME } from "../../helper/constants";
+import { ENTER_KEY } from "../../helper/constants";
 import { useStyles } from "./styles";
+import DeadlineWarning from "../DeadlineWarning/DeadlineWarning";
 
 const Todo = (props: TodoItemInterface) => {
   const classes = useStyles();
@@ -90,50 +88,12 @@ const Todo = (props: TodoItemInterface) => {
         </div>
 
         {todo.deadline && !todo.done ?
-          <DeadlineWarning deadline={todo.deadline} classes={classes} />
+          <DeadlineWarning deadline={todo.deadline} />
           : null
         }
       </div>
     </>
   );
-}
-
-const DeadlineWarning = (props: DeadlineWarningInterface): JSX.Element | null => {
-  const { deadline, classes } = props;
-  const [timeDifferenceState, setTimeDifferenceState] = useState(differenceInSeconds(new Date(deadline), new Date()));
-  let realTimeDifference = differenceInSeconds(new Date(deadline), new Date());
-
-  useEffect(() => {
-    setTimeDifferenceState(realTimeDifference);
-    const intervalID = setInterval(() => {
-      // eslint-disable-next-line
-      realTimeDifference = realTimeDifference - 3;
-      if (realTimeDifference < 0) {
-        clearInterval(intervalID);
-        setTimeDifferenceState(realTimeDifference);
-      }
-    }, 3000);
-
-    return function cleanup() {
-      clearInterval(intervalID);
-    };
-  }, [deadline]);
-
-  if (timeDifferenceState >= 0 && timeDifferenceState < WARNING_TIME) {
-    return (
-      <div className={[classes.warningContainer, classes.warning].join(" ")}>
-        <WarningRoundedIcon />
-        <span>Soon to expired !</span>
-      </div>
-    );
-  } else if (timeDifferenceState < 0) {
-    return (
-      <div className={[classes.warningContainer, classes.error].join(" ")}>
-        <ErrorRoundedIcon />
-        <span>This item is not done yet !!!</span>
-      </div>
-    );
-  } else return null;
 }
 
 export default Todo;

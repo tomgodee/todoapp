@@ -1,4 +1,4 @@
-import { PRIMARY_TEXT_COLOR, WARNING_COLOR, ERROR_COLOR } from "../../styles/constants";
+import { PRIMARY_TEXT_COLOR } from "../../styles/constants";
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles({
@@ -35,16 +35,4 @@ export const useStyles = makeStyles({
   timePicker: {
     margin: "20px 0 0 "
   },
-  warningContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: "20px 0 0 ",
-  },
-  warning: {
-    color: WARNING_COLOR
-  },
-  error: {
-    color: ERROR_COLOR
-  }
 });

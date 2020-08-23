@@ -15,7 +15,6 @@ export interface TodoItemInterface {
 
 export interface DeadlineWarningInterface {
   deadline: string,
-  classes: Record<string, string>
 }
 
 export interface TodoInputInterface {
